@@ -1,4 +1,4 @@
-baseURL = "https://meyerzinn.tech/"
+baseURL = "/"
 disablePathToLower = true
 languageCode = "en-us"
 title = "Meyer Zinn"
