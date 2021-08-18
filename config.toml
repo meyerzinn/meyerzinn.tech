@@ -1,0 +1,19 @@
+baseURL = "https://meyerzinn.tech/"
+disablePathToLower = true
+languageCode = "en-us"
+title = "Meyer Zinn"
+theme = "hyde"
+
+[Params]
+description = "Turing Scholar at the University of Texas at Austin, studying distributed systems."
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[Menus]
+  main = [
+      {Name = "Github", URL = "https://github.com/meyerzinn/"},
+      {Name = "LinkedIn", URL = "https://www.linkedin.com/in/meyerzinn/"}
+  ]
