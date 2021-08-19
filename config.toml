@@ -15,6 +15,5 @@ description = "Turing Scholar at the University of Texas at Austin, studying com
 [Menus]
   main = [
       {Name = "Github", URL = "https://github.com/meyerzinn/"},
-      {Name = "LinkedIn", URL = "https://www.linkedin.com/in/meyerzinn/"},
-      {Name = "Resume", URL = "/resume.pdf"}
+      {Name = "LinkedIn", URL = "https://www.linkedin.com/in/meyerzinn/"}
   ]
