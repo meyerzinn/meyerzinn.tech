@@ -1,7 +1,7 @@
 +++
 author = "Meyer"
 date = 2021-01-19T06:05:03Z
-description = ""
+summary = "Musings about my experience with Apple's new ARM laptops."
 draft = false
 slug = "thoughts-on-the-m1-macbook-air"
 title = "Thoughts on the M1 MacBook Air"
