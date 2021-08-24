@@ -12,7 +12,7 @@ There are a lot of things I expected when I accepted a summer internship with Cl
 
 What I did *not* anticipate was shipping that code to Cloudflare’s edge to improve routing of trillions of bytes of data for real customers every day. I also did not expect my work to have a substantial, quantifiable impact on the product within twelve short weeks.
 
-The details of my work will be shared on the Cloudflare blog soon, but I wanted to share some takeaways from this summer that didn’t fit neatly into that post:
+I wrote a [Cloudflare blog post](https://blog.cloudflare.com/making-magic-transit-health-checks-faster-and-more-responsive/) with the technical details of my work, but I wanted to share some takeaways from this summer that make it in:
 
 1. Planning and testing are important. I was hired to help monitor Internet weather, not cause a storm. Corollary: Sometimes moving slowly in the right direction is better than moving at break-neck speed into a wall.
 2. Things break in weird ways when you scale them up by 10,000x.
