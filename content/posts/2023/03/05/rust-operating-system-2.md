@@ -628,12 +628,10 @@ If you debug the program now, you should see it enter `entry` with a valid stack
 
 ## 0️⃣ Clearing the BSS
 
-Before we can use any global variables from Rust, we need to zero the `bss` segment. But where is the BSS? Our linker script already defines two symbols, `_bss_start` and `_bss_end`! We can do this in Rust, but it’s pretty straightforward to implement in assembly in our `_start` function so we’ll do it there.
+Before we can use any global variables from Rust, we need to set every byte in the `bss` segment to `0`. But where is the BSS? Our linker script already defines two symbols, `_bss_start` and `_bss_end`! We can do this in Rust, but it’s pretty straightforward to implement in assembly in our `_start` function so we’ll do it there.
 
 <details>
-<summary>EXERCISE: write a function in assembly to clear the BSS. (Click for answer.)</summary>
-
-Your function will take arguments as `a0` and `a1`, but we can use 
+<summary>EXERCISE: write code in assembly to clear the BSS. (Click for answer.)</summary>
     
 ```rust
 // src/main.rs
