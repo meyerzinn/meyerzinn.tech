@@ -18,7 +18,7 @@ Finally, the majority of the kernel will be written in Rust. This makes less of 
 
 ## Posts
 
-* [p0: Running Rust code on bare-metal RISC-V (in QEMU)]({{< ref "/posts/2023/03/05/rust-operating-system-2" >}})
+* [p0: Running Rust code on RISC-V in QEMU]({{< ref "/posts/2023/03/05/rust-operating-system-2" >}})
 
 ## Resources and inspiration
 
