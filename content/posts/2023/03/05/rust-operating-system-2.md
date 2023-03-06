@@ -402,7 +402,7 @@ SECTIONS {
 
   .text : { # put code first
     *(.text.init) # start with anything in the .text.init section
-		*(.text .text.*) # then put anything else in .text
+    *(.text .text.*) # then put anything else in .text
   } >ram AT>ram :text # put this section into the text segment
 
   PROVIDE(_global_pointer = .); # this is magic, google "linker relaxation"
