@@ -1,9 +1,9 @@
 +++
-title = "p0: Running Rust code on bare-metal RISC-V (in QEMU)"
+title = "p0: Running Rust code on RISC-V in QEMU"
 summary = "The goal for this project is to run some code on a RISC-V virtual machine without an operating system, and start learning how to debug it."
 date = 2023-03-05T00:00:00-06:00
 draft = false
-slug = "running-rust-code-on-bare-metal-risc-v-in-qemu"
+slug = "running-rust-code-on-risc-v-in-qemu"
 +++
 
 The goal for this project is to run some code on a RISC-V virtual machine and start learning how to debug it. 
