@@ -14,24 +14,24 @@ The Rust standard toolchain already supports RISC-V, so we can use `rustc` to cr
 
 ```bash
 # install Rust - https://rustup.rs
-> curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # install nightly toolchain and make a new rust project in ./p0
-> rustup run nightly cargo new --name kernel p0
+$ rustup run nightly cargo new --name kernel p0
 
-> cd p0
+$ cd p0
 # from now on, all paths and commands will be relative to the root of p0
 
 # set the nightly toolchain as the default for this project
-> rustup override set nightly
+$ rustup override set nightly
 
-> tree
+$ tree
 .
 ├── Cargo.toml
 └── src
     └── main.rs
 
-> cat Cargo.toml
+$ cat Cargo.toml
 [package]
 name = "kernel"
 version = "0.1.0"
@@ -41,7 +41,7 @@ edition = "2021"
 
 [dependencies]
 
-> cat src/main.rs
+$ cat src/main.rs
 fn main() {
     println!("Hello, world!");
 }
@@ -56,7 +56,7 @@ This can be confusing, and it gets worse when we introduce modules, so it’s wo
 Let’s try compiling the default binary target.
 
 ```bash
-> cargo build
+$ cargo build
    Compiling kernel v0.1.0 (.../p0)
     Finished dev [unoptimized + debuginfo] target(s) in 0.15s
 ```
@@ -66,11 +66,11 @@ Well, that works! I guess we’re done.
 Let’s take a look at the binary executable Rust outputted at `target/debug/kernel`:
 
 ```bash
-> file target/debug/kernel
+$ file target/debug/kernel
 target/debug/kernel: Mach-O 64-bit executable arm64
 ```
 
-Oops. Your output might be different, but unless you are running on a 32-bit RISC-V machine, it is unlikely to be RISC-V. You may have noticed the package manifest never mentions RISC-V. Rust assumes that every crate can be compiled for every target. That’s true for most crates, but not for an operating system kernel, so we need to tell the Rust toolchain that it should build a binary for a different target than the one the compiler is running on (a process called ******************************cross-compiling******************************).
+Oops. Your output might be different, but unless you are running on a 32-bit RISC-V machine, it is unlikely to be RISC-V. You may have noticed the package manifest never mentions RISC-V. Rust assumes that every crate can be compiled for every target. That’s true for most crates, but not for an operating system kernel, so we need to tell the Rust toolchain that it should build a binary for a different target than the one the compiler is running on (a process called ***cross-compiling***).
 
 We need to create an additional configuration file, called `.cargo/config.toml` (note the leading dot), which tells `cargo` how to compile and run for each target. These options are separate because they can change depending on your development environment. Let’s go ahead and create that file:
 
@@ -86,7 +86,7 @@ We’re telling the Rust compiler to target rv32imac, as advertised. The value o
 So now we should be good to go! Right?
 
 ```bash
-> cargo run
+$ cargo run
 Compiling kernel v0.1.0 (.../p0)
 error[E0463]: can't find crate for `std`
   |
@@ -116,7 +116,7 @@ fn main() {
 And if we try running again
 
 ```bash
-> cargo run
+$ cargo run
 
 Compiling kernel v0.1.0 (.../p0)
 error: `#[panic_handler]` function required, but not found
@@ -153,7 +153,7 @@ We also had to add a `use` statement to make `PanicInfo` available in this scope
 Ok, back to the compiler:
 
 ```bash
-> cargo run
+$ cargo run
 Compiling kernel v0.1.0 (.../p0)
 error: requires `start` lang_item
 
@@ -176,11 +176,11 @@ Then the compiler will complain that there’s no main function. As it recommend
 Finally, if we run `cargo build` everything should succeed.
 
 ```bash
-> cargo build
+$ cargo build
    Compiling kernel v0.1.0 (.../p0)
     Finished dev [unoptimized + debuginfo] target(s) in 0.17s
 
-> file target/riscv32imac-unknown-none-elf/debug/kernel
+$ file target/riscv32imac-unknown-none-elf/debug/kernel
 
 target/riscv32imac-unknown-none-elf/debug/kernel: ELF 32-bit LSB executable, 
 UCB RISC-V, RVC, soft-float ABI, version 1 (SYSV), statically linked, 
@@ -194,7 +194,7 @@ Nice! There’s a lot of information here, but the important parts are `ELF 32-b
 If we try running now, we’ll get a different output:
 
 ```bash
-> cargo run
+$ cargo run
 target/riscv32imac-unknown-none-elf/debug/kernel: cannot execute binary file
 ```
 
@@ -229,7 +229,7 @@ We’ll add more flags as our kernel becomes more complete, but we’ll start wi
 - `-bios` tells QEMU to skip the **bootloader** and just run our program directly on startup (as if it were a BIOS). We could also use `-kernel` to have QEMU run a full bootloader (which a real operating system like Linux would require), but that process is more complicated and unnecessary as we’re just getting started.
 
 ```bash
-> cargo run
+$ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.00s
      Running `qemu-system-riscv32 -cpu rv32 -machine virt -m 150M -serial 'mon:stdio' -device virtio-rng-device -bios target/riscv32imac-unknown-none-elf/debug/kernel`
 ```
@@ -238,7 +238,7 @@ We’ll add more flags as our kernel becomes more complete, but we’ll start wi
 
 ### 💡 What happens when the system starts
 
-Boom. The switch is flipped. Current is flowing through the processor. What happens? The (full) answer is complicated and dives deep into microarchitectural components that aren’t super interesting from an operating systems perspective, so we’ll refine our question: when a hart starts execution, what is its initial state?
+Boom. The switch is flipped. Current is flowing through the processor. What happens? The (full) answer is complicated and dives deep into microarchitectural components that aren’t super interesting from an operating systems perspective, so we’ll refine our question: when the processor starts execution, what is its initial state?
 
 The answer depends on the platform, but for a virt machine the program counter is initially set to point to the **reset vector** (by default, address `0x1000`). QEMU pretends like the bootloader loads our program into memory (notice that we haven’t actually configured a hard drive yet, so this isn’t quite realistic, but it’s a useful simplification for now) and then jumps to the start of physical memory at `0x8000_0000`.
 
@@ -247,7 +247,7 @@ But don’t take my word for it. We can use `gdb` (the GNU debugger) to step thr
 You’ll need to add `-S` (capitalised) to the QEMU run configuration to make QEMU wait to run until the debugger is connected. You can do this from the `cargo run` command:
 
 ```bash
-> cargo run -- -S
+$ cargo run -- -S
    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
      Running `qemu-system-riscv32 -cpu rv32 -machine virt -m 150M -serial 'mon:stdio' -device virtio-rng-device -bios target/riscv32imac-unknown-none-elf/debug/kernel -S`
 ```
@@ -257,11 +257,11 @@ Everything after `--` gets added to the `runner` command, so we just appended `-
 Next, we’ll open `gdb` in another terminal:
 
 ```bash
-> gdb
+$ gdb
 ...
-> (gdb) file target/riscv32imac-unknown-none-elf/debug/kernel
+$ (gdb) file target/riscv32imac-unknown-none-elf/debug/kernel
 Reading symbols from target/riscv32imac-unknown-none-elf/debug/kernel...
-> (gdb) target remote localhost:1234
+$ (gdb) target remote localhost:1234
 Remote debugging using localhost:1234
 0x00001000 in ?? ()
 ```
@@ -271,7 +271,7 @@ We’re in the debugger now, connected to QEMU, and we can see the program count
 Let’s ask QEMU to print the code in memory wherever we are.
 
 ```bash
-> (gdb) x/10i $pc
+$ (gdb) x/10i $pc
 => 0x1000:      auipc   t0,0x0
    0x1004:      addi    a2,t0,40
    0x1008:      csrr    a0,mhartid
@@ -284,9 +284,7 @@ Let’s ask QEMU to print the code in memory wherever we are.
    0x101e:      unimp
 ```
 
-So we’re loading some values, then jumping to `t0`. Let’s step forward until we are about to jump:
-
-So `pc` points to an instruction that will jump to `t0`. Let’s see what the value of `t0` is:
+So we’re loading some values, then jumping to the address in `t0`. Let’s step forward until we are about to jump:
 
 ```bash
 (gdb) p/x $t0
@@ -339,7 +337,7 @@ How does QEMU know where the various parts of our kernel program should live in 
 Let’s poke around our kernel’s ELF file and see what’s happening. To do so, we’ll use `readelf`, a very useful program with a ton of functionality and options.
 
 ```bash
-> readelf -l target/riscv32imac-unknown-none-elf/debug/kernel
+$ readelf -l target/riscv32imac-unknown-none-elf/debug/kernel
 
 Elf file type is EXEC (Executable file)
 Entry point 0x110b4
@@ -441,10 +439,10 @@ fn main() {
 Now let’s look at the ELF file:
 
 ```bash
-> cargo build
+$ cargo build
    Compiling kernel v0.1.0 (.../p0)
     Finished dev [unoptimized + debuginfo] target(s) in 0.19s
-> readelf --segments target/riscv32imac-unknown-none-elf/debug/kernel
+$ readelf --segments target/riscv32imac-unknown-none-elf/debug/kernel
 Elf file type is EXEC (Executable file)
 Entry point 0x80000000
 There is 1 program header, starting at offset 52
@@ -463,7 +461,7 @@ We only have one segment at the moment because our Rust program is so simple, it
 Now, if we run QEMU and GDB it again, we should see something different.
 
 ```bash
-> gdb target/riscv32imac-unknown-none-elf/debug/kernel
+$ gdb target/riscv32imac-unknown-none-elf/debug/kernel
 ...
 Reading symbols from target/riscv32imac-unknown-none-elf/debug/kernel...
 (gdb) target remote localhost:1234
@@ -506,7 +504,7 @@ This means that `_start` is callable from external C code, and that it should ne
 <summary>EXERCISE: Run the program in GDB and set a breakpoint on `_start`. What is the value of the `sp` register at that point? (Click for answer.)</summary>
 
 ```
-> gdb target/riscv32imac-unknown-none-elf/debug/kernel
+$ gdb target/riscv32imac-unknown-none-elf/debug/kernel
 Reading symbols from target/riscv32imac-unknown-none-elf/debug/kernel...
 (gdb) target remote localhost:1234
 Remote debugging using localhost:1234
@@ -569,7 +567,7 @@ extern "C" fn _start() {
 If we try to compile, we get an error:
 
 ```bash
-> cargo build
+$ cargo build
    Compiling kernel v0.1.0 (.../p0)
 error[E0133]: use of inline assembly is unsafe and requires unsafe function or block
  --> src/main.rs:9:5
