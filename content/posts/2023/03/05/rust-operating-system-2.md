@@ -4,9 +4,12 @@ summary = "The goal for this project is to run some code on a RISC-V virtual mac
 date = 2023-03-05T00:00:00-06:00
 draft = false
 slug = "running-rust-code-on-risc-v-in-qemu"
+toc = true
 +++
 
-The goal for this project is to run some code on a RISC-V virtual machine and start learning how to debug it. 
+## 📝 Overview
+
+The goal for this project is to run some code on a RISC-V virtual machine and start learning how to debug it. Key terms are **bolded**, and you may want to search online for more information about them.
 
 ## 🛠️ Setting up the toolchain
 
