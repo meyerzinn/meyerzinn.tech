@@ -558,7 +558,7 @@ The linker will now provide a symbol, `_init_stack_top`, which we can use to ref
 
 #[no_mangle]
 extern "C" fn _start() {
-		use core::arch::asm;
+    use core::arch::asm;
     asm!("la sp, _init_stack_top");
 
     loop {}
@@ -604,18 +604,18 @@ Instead, we will mark `_start` as an unsafe, naked function and make another fun
 #[no_mangle]
 unsafe extern "C" fn _start() -> ! {
   use core::arch::asm;
-	asm!(
-		// before we use the `la` pseudo-instruction for the first time,
-		//  we need to set `gp` (google linker relaxation)
-		".option push",
-		".option norelax",
-		"la gp, _global_pointer",
-		".option pop",
-		
-		// set the stack pointer
-		"la sp, _init_stack_top",
+  asm!(
+    // before we use the `la` pseudo-instruction for the first time,
+    //  we need to set `gp` (google linker relaxation)
+    ".option push",
+    ".option norelax",
+    "la gp, _global_pointer",
+    ".option pop",
+    
+    // set the stack pointer
+    "la sp, _init_stack_top",
 
-		// "tail-call" to {entry} (call without saving a return address)
+    // "tail-call" to {entry} (call without saving a return address)
     "tail {entry}",
     entry = sym entry, // {entry} refers to the function [entry] below
     options(noreturn) // we must handle "returning" from assembly
