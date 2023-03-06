@@ -16,6 +16,10 @@ In particular, we’re going to focus on supporting the QEMU “virt” device, 
 
 Finally, the majority of the kernel will be written in Rust. This makes less of a difference than you might expect because kernel software does a ***lot*** of low-level, unsafe stuff that is impossible for the compiler to prove correct. Rust basically functions like a more ergonomic C++ in this context. We could also write the kernel in plain C, like the Linux or macOS kernel, or even directly in assembly, but it would be painful to part with the niceties of a higher-level language.
 
+## Posts
+
+* [p0: Running Rust code on bare-metal RISC-V (in QEMU)]({{< ref "/posts/2023/03/05/rust-operating-system-2" >}})
+
 ## Resources and inspiration
 
 * Dr. Ahmed Gheith's provided starter code for CS 439H (honors operating systems).

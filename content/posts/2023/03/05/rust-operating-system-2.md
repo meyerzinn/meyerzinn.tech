@@ -6,7 +6,7 @@ draft = false
 slug = "running-rust-code-on-bare-metal-risc-v-in-qemu"
 +++
 
-The goal for this project is to run some code on a RISC-V virtual machine and start learning how to debug it.
+The goal for this project is to run some code on a RISC-V virtual machine and start learning how to debug it. 
 
 ## 🛠️ Setting up the toolchain
 
@@ -659,4 +659,3 @@ You can verify in GDB that everything between `_bss_start` (inclusive) and `_bss
 </details></p>
 
 Now we’re done! That’s a lot for one blog post, so next time we’ll try to get a message to print to the QEMU console.
-
