@@ -274,22 +274,37 @@ We’re in the debugger now, connected to QEMU, and we can see the program count
 Let’s ask QEMU to print the code in memory wherever we are.
 
 ```bash
-$ (gdb) x/10i $pc
+$ (gdb) x/6i $pc
 => 0x1000:      auipc   t0,0x0
    0x1004:      addi    a2,t0,40
    0x1008:      csrr    a0,mhartid
    0x100c:      lw      a1,32(t0)
    0x1010:      lw      t0,24(t0)
    0x1014:      jr      t0
-   0x1018:      unimp
-   0x101a:      .2byte  0x8000
-   0x101c:      unimp
-   0x101e:      unimp
 ```
 
 So we’re loading some values, then jumping to the address in `t0`. Let’s step forward until we are about to jump:
 
 ```bash
+(gdb) x/6xi 0x1000
+=> 0x1000:	auipc	t0,0x0
+   0x1004:	addi	a2,t0,40
+   0x1008:	csrr	a0,mhartid
+   0x100c:	lw	a1,32(t0)
+   0x1010:	lw	t0,24(t0)
+   0x1014:	jr	t0
+(gdb) si
+0x00001004 in ?? ()
+(gdb) si
+0x00001008 in ?? ()
+(gdb) si
+0x0000100c in ?? ()
+(gdb) si
+0x00001010 in ?? ()
+(gdb) si
+0x00001014 in ?? ()
+(gdb) x/i $pc
+=> 0x1014:	jr	t0
 (gdb) p/x $t0
 $1 = 0x80000000
 ```
