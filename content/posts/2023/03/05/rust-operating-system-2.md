@@ -160,7 +160,7 @@ error: requires `start` lang_item
 error: could not compile `kernel` due to previous error
 ```
 
-We’re missing another thing: somewhere for the program to start! It turns out that `main` is not actually the entry point for most programs — if you compile a program with `std`, there is a (very small) amount of setup that needs to happen before `main`. The real, true, actual entry point is typically called `_start` (or some variation of that) and is usually provided by the standard library or compiler for whatever language you are using. In C, this is usually `[crt0](https://en.wikipedia.org/wiki/Crt0)`.
+We’re missing another thing: somewhere for the program to start! It turns out that `main` is not actually the entry point for most programs — if you compile a program with `std`, there is a (very small) amount of setup that needs to happen before `main`. The real, true, actual entry point is typically called `_start` (or some variation of that) and is usually provided by the standard library or compiler for whatever language you are using. In C, this is usually [`crt0`](https://en.wikipedia.org/wiki/Crt0).
 
 In Rust (and most higher-level languages), the compiler changes (”mangles”) the name of every function to make it unique across the whole crate. Let’s rename `main` to `_start` and tell the Rust compiler not to mangle the name — there really should only be one `_start` in the crate!
 
