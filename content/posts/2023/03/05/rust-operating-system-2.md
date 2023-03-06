@@ -50,7 +50,7 @@ fn main() {
 }
 ```
 
-Cargo is the Rust package manager and helpfully provides wrappers around most of the Rust toolchain, so `cargo` will be your main point of contact with Rust. A Rust **package** (corresponding to a `Cargo.toml` **manifest** file) is a collection of files that provide one or more **crates**. A crate is either a library or an executable program, referred to as either a **library crate** or a **binary crate**, respectively. A **target** is a platform that you want your code to run on. Crates are usually inferred automatically based on the layout of the project — e.g., if there is a file called `src/main.rs` , Cargo assumes you wanted to add a binary crate using `main.rs` and all of its dependencies.
+Cargo is the Rust package manager and helpfully provides wrappers around most of the Rust toolchain, so `cargo` will be your main point of contact with Rust. A Rust **package** (described by a `Cargo.toml` **manifest** file) is a collection of files that provide one or more **crates**. A crate is either a library or an executable program, referred to as either a **library crate** or a **binary crate**, respectively. A **target** is a platform that you want your code to run on. Crates are usually inferred automatically based on the layout of the project — e.g., if there is a file called `src/main.rs` , Cargo assumes you wanted to add a binary crate using `main.rs` and all of its dependencies.
 
 This can be confusing, and it gets worse when we introduce modules, so it’s worth spending some time playing around with `cargo` to understand the difference between ***packages***, ***targets***, and ***crates***.
 
