@@ -4,6 +4,7 @@ summary = "Bring back printline-debugging (featuring an overview of memory-mappe
 date = 2023-03-07T00:00:00-06:00
 draft = true
 slug = "p1-printing-to-the-console"
+toc = true
 +++
 
 ## 📝 Overview
