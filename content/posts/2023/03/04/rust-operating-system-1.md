@@ -14,7 +14,7 @@ RISC-V defines the set of instructions the processor must support, but that’s 
 
 In particular, we’re going to focus on supporting the QEMU “virt” device, which is roughly based on SiFive’s platform. QEMU is not very well documented, but we can generally consult the SiFive manuals for details. If that fails, we’ll turn to the QEMU source code.
 
-Finally, the majority of the kernel will be written in Rust. This makes less of a difference than you might expect because kernel software does a ***lot*** of low-level, unsafe stuff that is impossible for the compiler to prove correct. Rust basically functions like a more ergonomic C++ in this context. We could also write the kernel in plain C, like the Linux or macOS kernel, or even directly in assembly, but it would be painful to part with the niceties of a higher-level language.
+Finally, the majority of the kernel will be written in Rust. This makes less of a difference than you might expect because kernel software does a *lot* of low-level, unsafe stuff that is impossible for the compiler to prove correct. Rust basically functions like a more ergonomic C++ in this context. We could also write the kernel in plain C, like the Linux or macOS kernel, or even directly in assembly, but it would be painful to part with the niceties of a higher-level language.
 
 ## Posts
 
