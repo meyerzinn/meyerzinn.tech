@@ -376,7 +376,7 @@ Program Headers:
    03
 ```
 
-If we look at the `PhysAddr` column, everything is positioned at pretty small addresses. We know that’s not correct. Because we have some very specific requirements for memory layout, we need to write a **************************linker script************************** that specifies where everything should be. Linker scripts can be intimidating, so let’s step through one together. Create a file called `src/script.ld` and add:
+If we look at the `PhysAddr` column, everything is positioned at pretty small addresses. We know that’s not correct. Because we have some very specific requirements for memory layout, we need to write a **linker script** that specifies where everything should be. Linker scripts can be intimidating, so let’s step through one together. Create a file called `src/script.ld` and add:
 
 ```
 # src/script.ld
@@ -407,7 +407,7 @@ PHDRS {
 }
 ```
 
-`PHDRS` stands for “program headers.” There are three kinds of headers of our program: `text` is code, `data` is global variables and constant values (like strings), and `bss` is any global value that is initialised to zero. (Having a `bss` is a common optimisation since programs typically have a lot of initially-zero values). These program headers (also called segments) are the chunks that are actually loaded into memory at runtime. The compiler will choose to put every ****************section**************** of data into one of these ****************segments****************. We need to tell the linker the relationship between sections and segments:
+`PHDRS` stands for “program headers.” There are three kinds of headers of our program: `text` is code, `data` is global variables and constant values (like strings), and `bss` is any global value that is initialised to zero. (Having a `bss` is a common optimisation since programs typically have a lot of initially-zero values). These program headers (also called segments) are the chunks that are actually loaded into memory at runtime. The compiler will choose to put every **section** of data into one of these **segments**. We need to tell the linker the relationship between sections and segments:
 
 ```
 # ...
@@ -513,6 +513,7 @@ Nice! So the debugger is showing us that we are running our Rust code! Mission a
 There are two (subtle) correctness issue with our implementation so far. When the bootloader jumps to `0x8000_0000`, it is essentially making a function call in the standard C calling convention (see the RISC-V manual chapter on “Calling Convention”). Rust uses a different (and currently, not formally specified) calling convention. We got lucky that for a very simple function like `_start`, they appear to generate the same code, but we need to tell the compiler that `_start` should be callable using the C calling convention before we add much else. Change the signature of `_start` to:
 
 ```rust
+#[link_section = ".text.init"]
 extern "C" fn _start() -> ! {
 ```
 
@@ -608,6 +609,8 @@ We could add the `unsafe` block around `asm!`, but this still does not solve our
 
 Instead, we will mark `_start` as an unsafe, naked function and make another function, called `entry`, which is our “real” entry point into Safe Rust. `_start` will do as little work as possible to establish the invariants that the C calling convention requires before jumping to `entry`.
 
+We'll also use the `#[link_section]` function attribute to force the linker to place `_start` in the `.text.init` section, right at the top of our `:text` segment.
+
 ```rust
 // src/main.rs
 
@@ -617,6 +620,7 @@ Instead, we will mark `_start` as an unsafe, naked function and make another fun
 
 #[naked]
 #[no_mangle]
+#[link_section = ".text.init"]
 unsafe extern "C" fn _start() -> ! {
   use core::arch::asm;
   asm!(
