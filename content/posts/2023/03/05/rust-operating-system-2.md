@@ -631,34 +631,4 @@ extern "C" fn entry() -> ! {
 }
 ```
 
-If you debug the program now, you should see it enter `entry` with a valid stack pointer. Now we’re really done!
-
-## 0️⃣ Clearing the BSS
-
-Before we can use any global variables from Rust, we need to set every byte in the `bss` segment to `0`. But where is the BSS? Our linker script already defines two symbols, `_bss_start` and `_bss_end`! We can do this in Rust, but it’s pretty straightforward to implement in assembly in our `_start` function so we’ll do it there.
-
-<details>
-<summary>EXERCISE: write code in assembly to clear the BSS. (Click for answer.)</summary>
-    
-```rust
-// src/main.rs
-
-// ...
-    "la sp, _init_stack_top",
-
-    // clear the BSS
-    "la t0, _bss_start",
-    "la t1, _bss_end",
-    "bgeu t0, t1, 2f",
-"1:",
-    "sb zero, 0(t0)",
-    "addi t0, t0, 1",
-    "bne t0, t1, 1b",
-"2:",
-    // BSS is clear!
-```
-
-You can verify in GDB that everything between `_bss_start` (inclusive) and `_bss_end` (exclusive) is zero.
-</details></p>
-
-Now we’re done! That’s a lot for one blog post, so next time we’ll try to get a message to print to the QEMU console.
+If you debug the program now, you should see it enter `entry` with a valid stack pointer. Now we’re done! That’s a lot for one blog post, so [next time]({{< ref "/posts/2023/03/08/rust-operating-system-3" >}}) we’ll try to get a message to print to the QEMU console.

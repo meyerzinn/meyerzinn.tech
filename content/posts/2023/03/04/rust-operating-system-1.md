@@ -18,8 +18,8 @@ Finally, the majority of the kernel will be written in Rust. This makes less of 
 
 ## Posts
 
-* [p0: Running Rust code on RISC-V in QEMU]({{< ref "/posts/2023/03/05/rust-operating-system-2" >}})
-
+* [*p0: Running Rust code on RISC-V in QEMU*]({{< ref "/posts/2023/03/05/rust-operating-system-2" >}})
+* [*p1: Printing and allocating*]({{< ref "/posts/2023/03/08/rust-operating-system-3" >}})
 ## Resources and inspiration
 
 * Dr. Ahmed Gheith's provided starter code for CS 439H (honors operating systems).
