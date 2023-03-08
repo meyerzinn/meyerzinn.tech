@@ -234,7 +234,7 @@ We’ll add more flags as our kernel becomes more complete, but we’ll start wi
 ```bash
 $ cargo run
     Finished dev [unoptimized + debuginfo] target(s) in 0.00s
-     Running `qemu-system-riscv32 -cpu rv32 -machine virt -m 150M -serial 'mon:stdio' -device virtio-rng-device -bios target/riscv32imac-unknown-none-elf/debug/kernel`
+     Running `qemu-system-riscv32 -cpu rv32 -machine virt -m 150M -bios target/riscv32imac-unknown-none-elf/debug/kernel`
 ```
 
 … and then it hangs. Did it work? How do we know what’s happening?
@@ -252,7 +252,7 @@ You’ll need to add `-S` (capitalised) to the QEMU run configuration to make QE
 ```bash
 $ cargo run -- -S
    Finished dev [unoptimized + debuginfo] target(s) in 0.00s
-     Running `qemu-system-riscv32 -cpu rv32 -machine virt -m 150M -serial 'mon:stdio' -device virtio-rng-device -bios target/riscv32imac-unknown-none-elf/debug/kernel -S`
+     Running `qemu-system-riscv32 -cpu rv32 -machine virt -m 150M -bios target/riscv32imac-unknown-none-elf/debug/kernel -S`
 ```
 
 Everything after `--` gets added to the `runner` command, so we just appended `-S` right after the `-bios [target]` flag. The output looks the same, but QEMU is actually paused, waiting for us to debug it. 
