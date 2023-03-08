@@ -2,7 +2,7 @@
 title = "p1: Printing and allocating"
 summary = "Bring back printline-debugging (featuring an overview of memory-mapped I/O and the idea of safely abstracting over unsafe code), plus initialisation of a kernel heap."
 date = 2023-03-08T00:00:00-06:00
-draft = true
+draft = false
 slug = "p1-printing-and-allocating"
 toc = true
 +++
@@ -12,6 +12,8 @@ toc = true
 The goal of this project is to create a safe abstraction for printing characters out to the console and to initialize a kernel heap for dynamic allocation.
 
 If you have not already, read [*p0: Running Rust code on RISC-V in QEMU*]({{< ref "/posts/2023/03/05/rust-operating-system-2" >}}) to set up your development environment and scaffold the project. If you have no idea what any of this is for, check out [*Writing a RISC-V operating system kernel in Rust*]({{< ref "/posts/2023/03/04/rust-operating-system-1" >}}).
+
+This project is still undergoing review and is subject to change.
 
 ## 🖨️ Printing to the console
 
