@@ -11,6 +11,8 @@ toc = true
 
 The goal of this project is to create a safe abstraction for printing characters out to the console and to initialize a kernel heap for dynamic allocation.
 
+
+
 ## 🖨️ Printing to the console
 
 Adding print statements is an extremely useful technique for quickly identifying bugs and letting the world know what is happening inside our kernel.

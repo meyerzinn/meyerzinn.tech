@@ -329,21 +329,6 @@ Whelp… (you can use `q` to exit GDB, and `C-a x` to exit QEMU).
 
 ### 🔗 Linking the program
 
-```bash
-(gdb) si
-0x00001004 in ?? ()
-(gdb) si
-0x00001008 in ?? ()
-(gdb) si
-0x0000100c in ?? ()
-(gdb) si
-0x00001010 in ?? ()
-(gdb) si
-0x00001014 in ?? ()
-(gdb) x/i $pc
-=> 0x1014:      jr      t0
-```
-
 What went wrong?
 
 So far, we’ve assumed that the standard compiler and linker settings will Just Work for our kernel.  Clearly we’ll need to put in a bit more effort to make it work. Let’s start by understanding the problem.
